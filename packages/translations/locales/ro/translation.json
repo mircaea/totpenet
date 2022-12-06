@@ -1,0 +1,21 @@
+{
+  "welcome": "Bine ai venit",
+  "ro": "Română",
+  "en": "Engleză",
+  "website_language": "Limba website-ului",
+  "website_theme": "Tema website-ului",
+  "using": "Folosind",
+  "light_mode": "Mod luminos",
+  "dark_mode": "Mod întunecat",
+  "sign_in": "Autentificare",
+  "sign_out": "Ieșire din cont",
+  "username": "Nume utilizator",
+  "password": "Parolă",
+  "with_username_and_password": "Cu nume de itilizator & parolă",
+  "use_social_media": "Folosește social media",
+  "save": "Salvează",
+  "cancel": "Anulează",
+  "sign_in_with_google": "Autentificare cu Google",
+  "sign_in_with_facebook": "Autentificare cu Facebook",
+  "go_back": "Mergi înapoi"
+}

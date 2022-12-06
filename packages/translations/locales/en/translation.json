@@ -1,0 +1,21 @@
+{
+  "welcome": "Welcome",
+  "ro": "Romanian",
+  "en": "English",
+  "website_language": "Website language",
+  "website_theme": "Website theme",
+  "using": "Using",
+  "light_mode": "Light mode",
+  "dark_mode": "Dark mode",
+  "sign_in": "Sign in",
+  "sign_out": "Sign out",
+  "username": "Username",
+  "password": "Password",
+  "with_username_and_password": "With username & password",
+  "use_social_media": "Use social media",
+  "save": "Save",
+  "cancel": "Cancel",
+  "sign_in_with_google": "Sign in with Google",
+  "sign_in_with_facebook": "Sign in with Facebook",
+  "go_back": "Go back"
+}

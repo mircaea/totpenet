@@ -13,11 +13,11 @@ export function LoginInfo() {
         fontSize: "1.25rem",
       }}
     >
-      <p>Login info</p>
+      <p>Dummy login info. [only good for dummy login & test on host app.]</p>
       {user ? (
         <button onClick={() => setUser("")}>Sign out</button>
       ) : (
-        <button onClick={() => setUser("loged in user name")}>Login</button>
+        <button onClick={() => setUser("loged in user name")}>Sign in</button>
       )}
     </div>
   );

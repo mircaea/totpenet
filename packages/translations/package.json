@@ -1,0 +1,12 @@
+{
+  "name": "translation",
+  "version": "1.0.0",
+  "main": "./index.ts",
+  "types": "./index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "i18next": "^22.0.8",
+    "i18next-http-backend": "^2.0.2",
+    "react-i18next": "^12.0.0"
+  }
+}
