@@ -13,12 +13,14 @@ This monorepo uses uses [Turborepo](https://turbo.build/) (from Facebook) and [Y
 ### Apps and Packages
 
 - `host-tpn`: a [React.js](https://reactjs.org/) app created with [Vite](https://vitejs.dev/)
-- `ui`: a stub React component library shared by the `host-tpn` application
-- `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `tsconfig`: `tsconfig.json`s used throughout the monorepo
-- `store` localStorage persisted state management with Zustand
+- [^1] `ui`: a stub React component library shared by the `host-tpn` application
+- [^1] `eslint-config-custom`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
+- [^1] `tsconfig`: `tsconfig.json`s used throughout the monorepo
+- [^1] named `store`: localStorage persisted store with `Zustand` & suport for React's native `Context API`
+- [^1] for managing general website settings: `theme, language, authentication`
+- [^1] for working with Google Firebase `firebase_package`
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+[^1]: micro frontend package
 
 ### Utilities
 
@@ -28,22 +30,14 @@ This turborepo has some additional tools already setup for you:
 - [ESLint](https://eslint.org/) for code linting
 - [Prettier](https://prettier.io) for code formatting
 
-### Build
-
-To build all apps and packages, run the following command:
-
-```
-cd totpenet
-yarn run build
-```
-
 ### Develop
 
 To develop all apps and packages, run the following command:
 
 ```
 cd totpenet
-yarn run dev
+yarn install
+yarn dev
 ```
 
 ### Remote Caching
@@ -91,7 +85,7 @@ Turborepo will cache localy by default. For an aditional speed boost, enable Rem
 
 (to disable Remote Caching run `npx turbo unlink`)
 
-`yarn run install`
+`yarn install`
 
 Test that everything is good and your new monorepo runs as expected: `yarn run dev`.\
 You should be able to access [hhttp://127.0.0.1:5173/](http://127.0.0.1:5173/).
@@ -102,7 +96,7 @@ You should be able to access [hhttp://127.0.0.1:5173/](http://127.0.0.1:5173/).
 
 ## Development
 
-### #1 Setting up the store
+### #1 Creating package `store`
 
 In the terminal navigate to /packages and create folder named _store_. Inside folder _store_:
 
@@ -113,3 +107,22 @@ In the terminal navigate to /packages and create folder named _store_. Inside fo
 - create a file _index.ts_ and add the export options
 
 (apparently zustand allows use of redux toolkit by using _devtools_. **TODO**: test this vs. implementing Redux toolkit without Zustand)
+
+dev++
+
+
+### Build & deploy
+
+To build all apps and packages, run the following command:
+
+```
+cd totpenet
+yarn run build
+```
+
+Using Vercel for hosting, SSL & automatic deployments.\
+I've already set up [my account](https://vercel.com/mircaea/totpenet-host-tpn) with Vercel to automatically deploy on every update on git repo branch `main`.
+
+## Extra care to specific monorepo problems
+
+[package hoisting](https://www.jonathancreamer.com/inside-the-pain-of-monorepos-and-hoisting/) - strict management of versions & imports
