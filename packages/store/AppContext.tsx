@@ -57,13 +57,12 @@ export function ContextProvider({
   }, [currentUser, localStorage]);
 
   useEffect(() => {
-    return () => {
-      const user_selected = localStorage.getItem("language");
-      if (typeof user_selected === "string" && user_selected !== "en") {
-        i18next.changeLanguage(user_selected);
-        setLanguage(user_selected);
-      }
-    };
+    const user_selected = localStorage.getItem("language");
+    console.log("Loading saved language: ", user_selected);
+    if (typeof user_selected === "string" && user_selected !== "en") {
+      i18next.changeLanguage(user_selected);
+      setLanguage(user_selected);
+    }
   }, [localStorage]);
 
   const change_language = async (lang: LanguageOptions) => {

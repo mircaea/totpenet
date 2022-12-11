@@ -66,8 +66,9 @@ export const TopNavigationControls = ({ isOpen, handleClose }: InputProps) => {
       () => {}
     );
 
-  const handleChangeLanguage = (event: any, data: any) =>
+  const handleChangeLanguage = (event: any, data: any) => {
     change_language(data?.props?.value ? data.props.value : "en");
+  };
 
   const handle_close = () => handleClose();
   const handleSignInBack = () => setShowLogin(false);
