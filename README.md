@@ -122,3 +122,7 @@ yarn run build
 
 Using Vercel for hosting, SSL & automatic deployments.\
 I've already set up [my account](https://vercel.com/mircaea/totpenet-host-tpn) with Vercel to automatically deploy on every update on git repo branch `main`.
+
+## Extra care to specific monorepo problems
+
+[package hoisting](https://www.jonathancreamer.com/inside-the-pain-of-monorepos-and-hoisting/) - strict management of versions & imports
