@@ -16,7 +16,7 @@ interface Store {
   addToScore: (amount: number) => void;
 }
 
-// TODO: on first load -> changeLanguage to match the persisted value
+// Zustand = NOT USED ANYMORE
 
 export const useStore = create<Store>()(
   persist(

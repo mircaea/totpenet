@@ -1,15 +1,14 @@
 import styled from "@emotion/styled";
-import { FormControlLabel, FormGroup, Switch } from "@mui/material";
+import { Switch } from "@mui/material";
 import React, { useMemo } from "react";
-import { useStore } from "store";
+import { useAppContext } from "store";
 
-interface InputProps {
-  checked: boolean;
-  handleChange: () => void;
-}
+function LightDarkSwitch() {
+  const { themeMode, set_theme_mode } = useAppContext();
+  const handleSetThemeMode = (ev: any, switchValue: boolean) => {
+    set_theme_mode(switchValue);
+  };
 
-function LightDarkSwitch({ checked, handleChange }: InputProps) {
-  const { themeMode } = useStore();
   const MaterialUISwitch = useMemo(
     () =>
       styled(Switch)(({ theme }) => ({
@@ -64,8 +63,8 @@ function LightDarkSwitch({ checked, handleChange }: InputProps) {
   return (
     <MaterialUISwitch
       sx={{ mb: 1 }}
-      onChange={handleChange}
-      checked={themeMode === "dark"}
+      onChange={handleSetThemeMode}
+      checked={themeMode}
     />
   );
 }

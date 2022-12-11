@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import i18next from "i18next";
-import { useAppContext, useStore } from "store";
+import { useAppContext } from "store";
 import {
   Backdrop,
   Button,
@@ -50,8 +49,7 @@ interface InputProps {
 
 export const TopNavigationControls = ({ isOpen, handleClose }: InputProps) => {
   const { t } = useTranslation();
-  const { themeMode, toggleThemeMode } = useStore();
-  const { currentUser, language, languagePool, change_language } =
+  const { currentUser, language, languagePool, change_language, themeMode } =
     useAppContext();
   const [showLogin, setShowLogin] = useState(false);
 
@@ -125,20 +123,17 @@ export const TopNavigationControls = ({ isOpen, handleClose }: InputProps) => {
             <WrapperGridItem>
               <Typography>{t("website_theme")}</Typography>
               <Typography sx={{ pb: "10px" }} color="secondary">
-                {themeMode === "dark" ? t("dark_mode") : t("light_mode")}
+                {themeMode ? t("dark_mode") : t("light_mode")}
               </Typography>
               <Box sx={{ margin: "auto" }}>
-                <LightDarkSwitch
-                  checked={themeMode === "dark"}
-                  handleChange={toggleThemeMode}
-                />
+                <LightDarkSwitch />
               </Box>
             </WrapperGridItem>
 
             <WrapperGridItem>
               <Typography>
-                {`${t("authenticate")} ${
-                  currentUser?.email ? `${t("welcome")}, ` : ""
+                {`${
+                  currentUser?.email ? `${t("welcome")}, ` : t("authenticate")
                 }`}
               </Typography>
               <Typography sx={{ pb: "10px" }} color="secondary">

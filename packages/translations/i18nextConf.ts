@@ -7,8 +7,6 @@ import translationEN from "./locales/en/translation.json";
 import translationRO from "./locales/ro/translation.json";
 import translationES from "./locales/es/translation.json";
 
-const fallbackLng = "en";
-
 const resources = {
   de: {
     translation: translationDE,
@@ -24,10 +22,17 @@ const resources = {
   },
 };
 
+// prevent reloading by language | set ONCE the user selected language:
+let lng = localStorage.getItem("language");
+if (!lng || typeof lng !== "string") lng = "en";
+
+const fallbackLng = "en";
+
 i18n
   .use(Backend) // load translations using http (default public/assets/locals/en/translations)
   .use(initReactI18next) // pass the i18n instance to react-i18next.
   .init({
+    lng,
     resources,
     fallbackLng,
     detection: {

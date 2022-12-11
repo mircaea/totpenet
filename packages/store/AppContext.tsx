@@ -11,6 +11,8 @@ interface AppContextType {
   language: string;
   languagePool: string[];
   change_language: (lang: LanguageOptions) => void;
+  themeMode: boolean;
+  set_theme_mode: (switchOn: boolean) => void;
 }
 
 const AppContext = React.createContext<AppContextType>(null!);
@@ -31,19 +33,15 @@ export function ContextProvider({
   const [language, setLanguage] = useState("en");
   const { localStorage } = window;
   const languagePool = ["de", "en", "ro", "es"];
+  const [themeMode, setThemeMode] = useState(false);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(
       auth,
       (user) => {
         let user_email = user && user.email ? user.email : "-";
-        if (currentUser !== user) {
-          setCurrentUser(user);
-        }
-
-        if (localStorage.getItem("user_email") !== user_email) {
-          localStorage.setItem("user_email", user_email);
-        }
+        setCurrentUser(user);
+        localStorage.setItem("user_email", user_email);
       },
       (error) => {
         // alert("error onAuthStateChanged: " + error);
@@ -54,14 +52,15 @@ export function ContextProvider({
     return () => {
       unsubscribe();
     };
-  }, [currentUser, localStorage]);
+  }, [localStorage]);
 
   useEffect(() => {
     const user_selected = localStorage.getItem("language");
-    console.log("Loading saved language: ", user_selected);
-    if (typeof user_selected === "string" && user_selected !== "en") {
-      i18next.changeLanguage(user_selected);
-      setLanguage(user_selected);
+    if (typeof user_selected === "string") setLanguage(user_selected);
+
+    const theme_mode = localStorage.getItem("theme_mode");
+    if (typeof theme_mode === "string" && theme_mode === "dark") {
+      setThemeMode(true);
     }
   }, [localStorage]);
 
@@ -71,12 +70,20 @@ export function ContextProvider({
     localStorage.setItem("language", lang);
   };
 
+  const set_theme_mode = (switchOn: boolean) => {
+    const code = switchOn ? "dark" : "light";
+    setThemeMode(switchOn);
+    localStorage.setItem("theme_mode", code);
+  };
+
   let value = {
     currentUser,
     settings,
     language,
     languagePool,
     change_language,
+    themeMode,
+    set_theme_mode,
   };
 
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

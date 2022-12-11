@@ -11,20 +11,17 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import { TopNavigationLaunch } from "ui";
-import { useStore } from "store";
+import { useAppContext } from "store";
 import { useMemo } from "react";
 
 function App() {
-  const { themeMode } = useStore();
-  const fromOS = useMediaQuery("(prefers-color-scheme: dark)");
+  const { themeMode } = useAppContext();
 
   const theme = useMemo(() => {
-    let result = themeMode;
-    if (themeMode !== "light" && fromOS) {
-      result = "dark";
-    }
+    let result = themeMode ? "dark" : "light";
+
     return createTheme({ palette: { mode: result as PaletteMode } });
-  }, [themeMode, fromOS]);
+  }, [themeMode]);
 
   return (
     <BrowserRouter>
