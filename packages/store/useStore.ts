@@ -10,7 +10,6 @@ interface Store {
   toggleThemeMode: () => void;
   //
   language: string;
-  languagePool: string[];
   setLanguage: (abv: string) => void;
   //
   score: number;
@@ -33,7 +32,6 @@ export const useStore = create<Store>()(
         })),
       //
       language: "en",
-      languagePool: ["en", "ro"],
       setLanguage: (language: string) => {
         // zustand persists the data by using localStorage. Now only need to load <lang>.
         // localStorage.setItem("lang", language);

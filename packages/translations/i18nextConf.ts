@@ -2,27 +2,26 @@ import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import Backend from "i18next-http-backend";
 
-// import translationDE from "./locales/de/translation.json";
+import translationDE from "./locales/de/translation.json";
 import translationEN from "./locales/en/translation.json";
 import translationRO from "./locales/ro/translation.json";
-// import translationES from "./locales/es/translation.json";
+import translationES from "./locales/es/translation.json";
 
 const fallbackLng = "en";
-const availableLanguages = ["en", "ro"];
 
 const resources = {
-  // de: {
-  //   translation: translationDE,
-  // },
+  de: {
+    translation: translationDE,
+  },
   en: {
     translation: translationEN,
   },
   ro: {
     translation: translationRO,
   },
-  // es: {
-  //   translation: translationES,
-  // },
+  es: {
+    translation: translationES,
+  },
 };
 
 i18n
@@ -32,10 +31,9 @@ i18n
     resources,
     fallbackLng,
     detection: {
-      checkWhitelist: true, // options for language detection
+      checkWhitelist: false, // options for language detection
     },
     debug: false,
-    // whitelist: availableLanguages,
     interpolation: {
       escapeValue: false,
     },

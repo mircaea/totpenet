@@ -1,0 +1,11 @@
+{
+  "name": "firebasepackage",
+  "version": "1.0.0",
+  "main": "./index.tsx",
+  "types": "./index.tsx",
+  "dependencies": {
+    "firebase": "^9.14.0",
+    "tsconfig": "*",
+    "typescript": "^4.5.2"
+  }
+}

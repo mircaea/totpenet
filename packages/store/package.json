@@ -2,7 +2,8 @@
   "name": "store",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "./index.ts",
+  "types": "./index.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -10,6 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "firebase": "^9.14.0",
+    "firebasepackage": "*",
     "zustand": "^4.1.4"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.24"
   }
 }

@@ -3,18 +3,28 @@ import { BrowserRouter } from "react-router-dom";
 import Routing from "./Routing";
 import "./App.css";
 
-import { Paper, ThemeProvider, createTheme, PaletteMode } from "@mui/material";
+import {
+  Paper,
+  ThemeProvider,
+  createTheme,
+  PaletteMode,
+  useMediaQuery,
+} from "@mui/material";
 import { TopNavigationLaunch } from "ui";
 import { useStore } from "store";
 import { useMemo } from "react";
 
 function App() {
   const { themeMode } = useStore();
+  const fromOS = useMediaQuery("(prefers-color-scheme: dark)");
 
-  const theme = useMemo(
-    () => createTheme({ palette: { mode: themeMode as PaletteMode } }),
-    [themeMode]
-  );
+  const theme = useMemo(() => {
+    let result = themeMode;
+    if (themeMode !== "light" && fromOS) {
+      result = "dark";
+    }
+    return createTheme({ palette: { mode: result as PaletteMode } });
+  }, [themeMode, fromOS]);
 
   return (
     <BrowserRouter>

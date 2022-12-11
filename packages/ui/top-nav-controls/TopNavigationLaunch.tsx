@@ -1,19 +1,15 @@
-import React, { useMemo, useState } from "react";
-import { Button, createTheme, PaletteMode } from "@mui/material";
+import React, { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Button } from "@mui/material";
 import { TopNavigationControls } from "./TopNavigationControls";
 import { useStore } from "store";
+import { Box } from "@mui/system";
 
 export const TopNavigationLaunch = () => {
+  const { t } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
-  const { themeMode, setThemeMode, toggleThemeMode } = useStore();
 
-  const handleToggleTheme = () => {
-    toggleThemeMode();
-  };
-  const theme = useMemo(
-    () => createTheme({ palette: { mode: themeMode as PaletteMode } }),
-    [themeMode]
-  );
+  const handleOpen = () => setIsOpen(true);
 
   return (
     <>
@@ -21,13 +17,18 @@ export const TopNavigationLaunch = () => {
         isOpen={isOpen}
         handleClose={() => setIsOpen(false)}
       />
-      <Button
-        sx={{ position: "fixed", top: "1rem", left: "calc(50vw - 70px)" }}
-        variant="outlined"
-        onClick={() => setIsOpen(true)}
+      <Box
+        sx={{
+          position: "fixed",
+          top: "16px",
+          width: "340px",
+          left: "calc(50vw - 170px)",
+        }}
       >
-        open website general controls
-      </Button>
+        <Button fullWidth={true} variant="outlined" onClick={handleOpen}>
+          {t("open_main_controls")}
+        </Button>
+      </Box>
     </>
   );
 };

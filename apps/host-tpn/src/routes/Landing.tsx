@@ -3,7 +3,6 @@ import React from "react";
 import reactLogo from "../assets/react.svg";
 import { useStore } from "store";
 import { Link, Stack } from "@mui/material";
-import { LoginInfo } from "ui";
 
 function Landing() {
   const { user } = useStore();
@@ -15,13 +14,6 @@ function Landing() {
         <img src={reactLogo} className="logo react" alt="React logo" />
       </Link>
       <br />
-      <Stack
-        sx={{
-          display: "flex",
-        }}
-      >
-        <LoginInfo />
-      </Stack>
     </>
   );
 }
