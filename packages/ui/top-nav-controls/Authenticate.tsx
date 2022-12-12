@@ -3,7 +3,6 @@ import { useTranslation } from "react-i18next";
 import {
   Box,
   Button,
-  FormControl,
   FormHelperText,
   Paper,
   TextField,
@@ -13,10 +12,10 @@ import { Stack } from "@mui/system";
 import { sign_in, google_sign_in, sign_up, sign_out } from "firebasepackage";
 
 interface InputProps {
-  goBack: () => void;
+  cancelAuthenticate: () => void;
 }
 
-function SignIn({ goBack }: InputProps) {
+function Authenticate({ cancelAuthenticate }: InputProps) {
   const { t } = useTranslation();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -63,17 +62,18 @@ function SignIn({ goBack }: InputProps) {
 
   const handleSignIn = async () => {
     if (!handleValidateInputs()) return;
-    await sign_in(username, password, goBack, handleError);
+    await sign_in(username, password, cancelAuthenticate, handleError);
   };
-  const handleGoogleSignIn = () => google_sign_in(goBack, handleError);
+  const handleGoogleSignIn = () =>
+    google_sign_in(cancelAuthenticate, handleError);
   const handleSignUp = () => {
     if (!handleValidateInputs()) return;
-    sign_up(username, password, goBack, handleError);
+    sign_up(username, password, cancelAuthenticate, handleError);
   };
 
   return (
-    <Paper sx={{ p: "20px 30px" }}>
-      <Typography sx={{ fontSize: "2.25rem", pb: "20px" }}>
+    <Paper sx={{ p: 2 }}>
+      <Typography sx={{ fontSize: "2.25rem", pb: 2 }}>
         {t("sign_in")}
       </Typography>
 
@@ -111,9 +111,7 @@ function SignIn({ goBack }: InputProps) {
         <Button
           onClick={handleSignIn}
           variant="contained"
-          sx={{
-            mt: "16px",
-          }}
+          sx={{ mt: 2 }}
           fullWidth={true}
         >
           {t("sign_in")}
@@ -146,7 +144,7 @@ function SignIn({ goBack }: InputProps) {
         </Button>
         <FormHelperText />
         <Button
-          onClick={goBack}
+          onClick={cancelAuthenticate}
           variant="outlined"
           color="error"
           fullWidth={true}
@@ -158,4 +156,4 @@ function SignIn({ goBack }: InputProps) {
   );
 }
 
-export default SignIn;
+export default Authenticate;

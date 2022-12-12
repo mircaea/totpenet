@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useAppContext } from "store";
 import {
@@ -10,7 +10,7 @@ import {
   Select,
   Typography,
 } from "@mui/material";
-import SignIn from "./SignIn";
+import Authenticate from "./Authenticate";
 import { sign_out } from "firebasepackage";
 import { Box } from "@mui/system";
 import LightDarkSwitch from "./LightDarkSwitch";
@@ -43,21 +43,25 @@ const WrapperGridItem = ({ children }: { children: React.ReactNode }) => {
 };
 
 interface InputProps {
-  isOpen: boolean;
-  handleClose: () => void;
+  showControls: boolean;
+  closeControls: () => void;
 }
 
-export const TopNavigationControls = ({ isOpen, handleClose }: InputProps) => {
+export const TopNavigationControls = ({
+  showControls,
+  closeControls,
+}: InputProps) => {
   const { t } = useTranslation();
   const { currentUser, language, languagePool, change_language, themeMode } =
     useAppContext();
-  const [showLogin, setShowLogin] = useState(false);
+  const [showAuthenticate, setShowAuthenticate] = useState(false);
 
-  useEffect(() => {
-    setShowLogin(false);
-  }, [isOpen, setShowLogin]);
-
-  const handleSignIn = () => setShowLogin(true);
+  const openAuthenticate = () => setShowAuthenticate(true);
+  const cancelAuthenticate = () => setShowAuthenticate(false);
+  const closeAuthenticateAndStopPropagation = (event: any) => {
+    event.stopPropagation();
+    cancelAuthenticate();
+  };
   const handleSignOut = () =>
     sign_out(
       () => {},
@@ -65,93 +69,92 @@ export const TopNavigationControls = ({ isOpen, handleClose }: InputProps) => {
     );
 
   const handleChangeLanguage = (event: any, data: any) => {
-    change_language(data?.props?.value ? data.props.value : "en");
+    if (!data?.props?.value) return;
+    change_language(data.props.value);
   };
-
-  const handle_close = () => handleClose();
-  const handleSignInBack = () => setShowLogin(false);
 
   // xs, sm, md, lg, and xl
 
   return (
     <Backdrop
       sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      open={isOpen}
-      onClick={handle_close}
+      open={showControls}
+      onClick={closeControls}
     >
       <Grid
         container
         spacing={{ xs: 2, md: 2.5, lg: 3, xl: 4 }}
-        columns={{ xs: 1.25, sm: 1.75, md: 4, lg: 4, xl: 6 }}
-        position="absolute"
-        top={70}
+        columns={{ xs: 1.1, sm: 1.5, md: 4, lg: 4, xl: 6 }}
+        position="fixed"
+        top={16}
         justifyContent="center"
         alignItems="center"
       >
-        {showLogin ? (
-          <Grid
-            item
-            xs={1}
-            sm={1}
-            md={2}
-            lg={1.5}
-            xl={1.5}
-            textAlign="center"
-            onClick={stopPropagation}
+        {showAuthenticate && (
+          <Backdrop
+            sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+            open={true}
+            onClick={closeAuthenticateAndStopPropagation}
           >
-            <SignIn goBack={handleSignInBack} />
-          </Grid>
-        ) : (
-          <>
-            <WrapperGridItem>
-              <Typography sx={{ paddingBottom: "10px" }}>
-                {t("website_language")}:
-              </Typography>
-              <Select
-                value={language}
-                onChange={handleChangeLanguage}
-                size="small"
-              >
-                {languagePool.map((item, idx) => (
-                  <MenuItem key={idx} value={item}>
-                    {t(item)}
-                  </MenuItem>
-                ))}
-              </Select>
-            </WrapperGridItem>
-
-            <WrapperGridItem>
-              <Typography>{t("website_theme")}</Typography>
-              <Typography sx={{ pb: "10px" }} color="secondary">
-                {themeMode ? t("dark_mode") : t("light_mode")}
-              </Typography>
-              <Box sx={{ margin: "auto" }}>
-                <LightDarkSwitch />
-              </Box>
-            </WrapperGridItem>
-
-            <WrapperGridItem>
-              <Typography>
-                {`${
-                  currentUser?.email ? `${t("welcome")}, ` : t("authenticate")
-                }`}
-              </Typography>
-              <Typography sx={{ pb: "10px" }} color="secondary">
-                {currentUser?.email ? currentUser.email?.split("@")?.[0] : ""}
-              </Typography>
-
-              {currentUser ? (
-                <Button onClick={handleSignOut} variant="outlined">
-                  {t("sign_out")}
-                </Button>
-              ) : (
-                <Button onClick={handleSignIn} variant="contained">
-                  {t("sign_in")}
-                </Button>
-              )}
-            </WrapperGridItem>
-          </>
+            <Grid
+              position="fixed"
+              top={16}
+              width="100%"
+              item
+              xs={1}
+              sm={1}
+              md={2}
+              lg={1.5}
+              xl={1.5}
+              textAlign="center"
+              onClick={stopPropagation}
+            >
+              <Authenticate cancelAuthenticate={cancelAuthenticate} />
+            </Grid>
+          </Backdrop>
         )}
+
+        <WrapperGridItem>
+          <Typography sx={{ paddingBottom: "10px" }}>
+            {t("website_language")}:
+          </Typography>
+          <Select value={language} onChange={handleChangeLanguage} size="small">
+            {languagePool.map((item, idx) => (
+              <MenuItem key={idx} value={item}>
+                {t(item)}
+              </MenuItem>
+            ))}
+          </Select>
+        </WrapperGridItem>
+
+        <WrapperGridItem>
+          <Typography>{t("website_theme")}</Typography>
+          <Typography sx={{ pb: "10px" }} color="secondary">
+            {themeMode ? t("dark_mode") : t("light_mode")}
+          </Typography>
+          <Box sx={{ margin: "auto" }}>
+            <LightDarkSwitch />
+          </Box>
+        </WrapperGridItem>
+
+        <WrapperGridItem>
+          <Typography>
+            {`${currentUser?.email ? `${t("welcome")}, ` : t("authenticate")}`}
+          </Typography>
+          <Typography sx={{ pb: "10px" }} color="secondary">
+            {currentUser?.email ? currentUser.email?.split("@")?.[0] : ""}
+          </Typography>
+
+          {currentUser ? (
+            <Button onClick={handleSignOut} variant="outlined">
+              {t("sign_out")}
+            </Button>
+          ) : (
+            <Button onClick={openAuthenticate} variant="contained">
+              {t("sign_in")}
+            </Button>
+          )}
+        </WrapperGridItem>
       </Grid>
     </Backdrop>
   );

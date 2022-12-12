@@ -5,7 +5,6 @@ import {
   signInWithPopup,
   signOut,
 } from "firebase/auth";
-import { t } from "i18next";
 
 export async function sign_up(
   email: string,
