@@ -16,7 +16,7 @@ function Landing() {
       </Link>
       <br />
       {currentUser ? (
-        <Link href='/neuroanatomie-celulara' target='_blank' rel='noreferrer'>
+        <Link href='/neuroanatomie-celulara' rel='noreferrer'>
           Go to NeuroAnatomie Celuara
         </Link>
       ) : (
