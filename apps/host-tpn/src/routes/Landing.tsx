@@ -1,22 +1,29 @@
-import React from 'react';
-
+import { useAppContext } from 'store';
 import reactLogo from '../assets/react.svg';
-import { useStore } from 'store';
-import { Link, Stack } from '@mui/material';
+import { Link, Typography } from '@mui/material';
 
 function Landing() {
-  const { user } = useStore();
+  const { currentUser } = useAppContext();
 
   return (
     <>
-      <p>Landing page [route in host-tpn]. {user && `User string: ${user}`}</p>
-      <Link href='https://reactjs.org' target='_blank' rel='noreferrer'>
+      <p>
+        Landing page [route in host-tpn].{' '}
+        {currentUser && `User string: ${currentUser}`}
+      </p>
+      <Link href='/' rel='noreferrer'>
         <img src={reactLogo} className='logo react' alt='React logo' />
       </Link>
       <br />
-      <Link href='/neuroanatomie-celulara' target='_blank' rel='noreferrer'>
-        Go to NeuroAnatomie Celuara
-      </Link>
+      {currentUser ? (
+        <Link href='/neuroanatomie-celulara' target='_blank' rel='noreferrer'>
+          Go to NeuroAnatomie Celuara
+        </Link>
+      ) : (
+        <Typography>
+          Sign in to access the NeuronAnthropomorphic section :)
+        </Typography>
+      )}
     </>
   );
 }

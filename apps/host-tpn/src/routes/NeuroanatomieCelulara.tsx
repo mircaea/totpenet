@@ -1,7 +1,27 @@
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { logAccessedNeuroSection } from 'firebasepackage';
+import { useAppContext } from 'store';
 
 const NeuronAnthropomorphic = () => {
+  const { currentUser } = useAppContext();
   const [activeSection, setActiveSection] = useState('structura');
+
+  useEffect(() => {
+    if (currentUser) {
+      console.log(currentUser);
+      const request = {
+        displayName: currentUser.displayName,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        id: currentUser.email,
+      };
+      console.log(request);
+      logAccessedNeuroSection(request);
+    }
+  }, []);
+
+  if (!currentUser) return null;
 
   const sections = {
     structura: {

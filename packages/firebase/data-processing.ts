@@ -12,9 +12,9 @@ import {
   setDoc,
   updateDoc,
   where,
-} from "firebase/firestore";
-import { firestore } from "./firebase-config";
-import { DbMediaType, SettingsType } from "./types";
+} from 'firebase/firestore';
+import { firestore } from './firebase-config';
+import { DbMediaType, SettingsType } from './types';
 
 export const ConsoleLog = (label: string, value: any) => {
   // if (!window || !window.location || window.location.hostname !== "localhost") {
@@ -24,13 +24,13 @@ export const ConsoleLog = (label: string, value: any) => {
   // got console. no access to window
 
   try {
-    console.log(`%c${label}: %c${value}`, "color: green", "font-size: 1rem");
+    console.log(`%c${label}: %c${value}`, 'color: green', 'font-size: 1rem');
   } catch (error) {}
 };
 
-const SET_DOC_REF = doc(firestore, "settings/settings_document");
-const PAGES_COLLECTION = collection(firestore, "pages");
-const MEDIA_COLLECTION = collection(firestore, "media");
+const SET_DOC_REF = doc(firestore, 'settings/settings_document');
+const PAGES_COLLECTION = collection(firestore, 'pages');
+const MEDIA_COLLECTION = collection(firestore, 'media');
 
 export const getDocsFromCollection = async (
   collection: CollectionReference,
@@ -45,7 +45,7 @@ export const getDocsFromCollection = async (
     });
     return data;
   } catch (error) {
-    ConsoleLog("getDocsFromCollection", error);
+    ConsoleLog('getDocsFromCollection', error);
     return { err: error };
   }
 };
@@ -61,7 +61,7 @@ export const createDocInCollection = async (
     if (snapShot.exists()) docData = { id: snapShot.id, ...snapShot.data() };
     return docData;
   } catch (error) {
-    ConsoleLog("createDocInCollection", error);
+    ConsoleLog('createDocInCollection', error);
     return { err: error };
   }
 };
@@ -70,7 +70,7 @@ export const deleteDocByPath = async (path: string) => {
     const docRef = doc(firestore, path);
     return await deleteDoc(docRef);
   } catch (error) {
-    ConsoleLog("deleteDocByPath", error);
+    ConsoleLog('deleteDocByPath', error);
   }
 };
 
@@ -83,7 +83,7 @@ export const getSettings = async () => {
     }
     return data;
   } catch (error) {
-    ConsoleLog("getSettings", error);
+    ConsoleLog('getSettings', error);
     return { err: error };
   }
 };
@@ -96,7 +96,7 @@ export const saveSettings = async (reqObj: SettingsType) => {
       { merge: true }
     );
   } catch (error) {
-    ConsoleLog("saveSettings", error);
+    ConsoleLog('saveSettings', error);
     return { err: error };
   }
   // should not block the UI for this!
@@ -114,7 +114,7 @@ export const addMediaFile = async (media: DbMediaType) => {
     };
     return saved;
   } catch (error) {
-    ConsoleLog("addMediaFile", error);
+    ConsoleLog('addMediaFile', error);
   }
 };
 export const getMediaURLs = async () => {
@@ -127,15 +127,15 @@ export const getMediaURLs = async () => {
 
     return data;
   } catch (error) {
-    ConsoleLog("", error);
+    ConsoleLog('', error);
   }
 };
 
 export const getPageByPath = async (path: string) => {
   try {
     const pageQuery = query(
-      collection(firestore, "pages"),
-      where("path", "==", path),
+      collection(firestore, 'pages'),
+      where('path', '==', path),
       limit(1)
     );
     const snapShot = await getDocs(pageQuery);
@@ -145,7 +145,7 @@ export const getPageByPath = async (path: string) => {
     });
     return data;
   } catch (error) {
-    ConsoleLog("getPageByPath", error);
+    ConsoleLog('getPageByPath', error);
     // return error;
   }
 };
@@ -161,7 +161,7 @@ export const createPage = async (pageObj: object) => {
     if (page.exists()) docData = { id: page.id, ...page.data() };
     return docData;
   } catch (error) {
-    ConsoleLog("createPage", error);
+    ConsoleLog('createPage', error);
     return { err: error };
   }
 };
@@ -170,7 +170,7 @@ export const updatePage = async (pageObj: any) => {
     const page = doc(firestore, `pages/${pageObj.id}`);
     await updateDoc(page, pageObj);
   } catch (error) {
-    ConsoleLog("updatePage", error);
+    ConsoleLog('updatePage', error);
     return { err: error };
   }
 };
@@ -184,3 +184,44 @@ export const updatePage = async (pageObj: any) => {
 //     }
 //   });
 // };
+
+export const logAccessedNeuroSection = async (userData: {
+  displayName?: string;
+  firstName?: string;
+  lastName?: string;
+  email: string;
+}) => {
+  try {
+    // Format timestamp as "12 November 2025 14:30"
+    const now = new Date();
+    const day = now.getDate();
+    const month = now.toLocaleString('en-US', { month: 'long' });
+    const year = now.getFullYear();
+    const hours = String(now.getHours()).padStart(2, '0');
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const timestamp = `${day} ${month} ${year}, at: ${hours}:${minutes}`;
+
+    // Get name from displayName or firstName + lastName
+    const name =
+      userData.displayName ||
+      `${userData.firstName || ''} ${userData.lastName || ''}`.trim();
+
+    const accessLog = {
+      timestamp,
+      name,
+      email: userData.email,
+    };
+
+    // Use email as document ID
+    const docRef = doc(firestore, 'accessedNeutoSection', userData.email);
+    await setDoc(docRef, accessLog);
+
+    const snapShot = await getDoc(docRef);
+    if (snapShot.exists()) {
+      return { id: snapShot.id, ...snapShot.data() };
+    }
+  } catch (error) {
+    ConsoleLog('logAccessedNeuroSection', error);
+    return { err: error };
+  }
+};
