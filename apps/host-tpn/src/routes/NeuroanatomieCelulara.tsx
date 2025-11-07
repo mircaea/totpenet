@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   anatomieContent,
   introContent,
@@ -6,10 +6,29 @@ import {
   metode2Content,
   neuronSections,
 } from './tabs-content';
+import { useAppContext } from 'store';
+import { logAccessedNeuroSection } from 'firebasepackage';
 
 const NeurostiinteApp = () => {
+  const { currentUser } = useAppContext();
   const [activeTab, setActiveTab] = useState('intro');
   const [activeSection, setActiveSection] = useState('structura');
+
+  useEffect(() => {
+    if (currentUser) {
+      const request = {
+        displayName: currentUser.displayName,
+        firstName: currentUser.firstName,
+        lastName: currentUser.lastName,
+        email: currentUser.email,
+        id: currentUser.email,
+      };
+      console.log(request);
+      logAccessedNeuroSection(request);
+    }
+  });
+
+  if (!currentUser) return null;
 
   const styles: any = {
     container: {
