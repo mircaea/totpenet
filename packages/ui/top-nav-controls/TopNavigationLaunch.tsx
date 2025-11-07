@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
-import { Button } from "@mui/material";
-import { TopNavigationControls } from "./TopNavigationControls";
-import { Box } from "@mui/system";
+import React, { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import { Button } from '@mui/material';
+import { TopNavigationControls } from './TopNavigationControls';
+import { Box } from '@mui/system';
 
 export const TopNavigationLaunch = () => {
   const { t } = useTranslation();
@@ -19,14 +19,19 @@ export const TopNavigationLaunch = () => {
       />
       <Box
         sx={{
-          position: "fixed",
-          top: "16px",
-          width: "340px",
-          left: "calc(50vw - 170px)",
+          position: 'fixed',
+          top: '16px',
+          width: '340px',
+          left: 'calc(50vw - 170px)',
         }}
       >
-        <Button fullWidth={true} variant="outlined" onClick={openControls}>
-          {t("open_main_controls")}
+        <Button
+          fullWidth={true}
+          variant='outlined'
+          onClick={openControls}
+          sx={{ background: 'white' }}
+        >
+          {t('open_main_controls')}
         </Button>
       </Box>
     </>
